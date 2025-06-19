@@ -1,5 +1,5 @@
 <.header>
-  Members of <%= @cue.name %>
+  Members of {@cue.name}
   <:actions>
     <.link patch={~p"/cues/#{@cue}/members/add"}>
       <.button>Add Member</.button>
@@ -11,7 +11,7 @@
 </.header>
 
 <.table id="members" rows={@members}>
-  <:col :let={user} label="Email"><%= user.email %></:col>
+  <:col :let={user} label="Email">{user.email}</:col>
   <:col :let={user} label="Role">
     <%= if user.id == @cue.creator_id do %>
       <span class="font-semibold">Creator</span>
@@ -20,12 +20,16 @@
         <form phx-change="change_role" class="inline">
           <input type="hidden" name="user-id" value={user.id} />
           <select name="role" class="rounded-md border-zinc-300 text-sm">
-            <option value="member" selected={Groups.get_user_role(user, @cue) == "member"}>Member</option>
-            <option value="admin" selected={Groups.get_user_role(user, @cue) == "admin"}>Admin</option>
+            <option value="member" selected={Groups.get_user_role(user, @cue) == "member"}>
+              Member
+            </option>
+            <option value="admin" selected={Groups.get_user_role(user, @cue) == "admin"}>
+              Admin
+            </option>
           </select>
         </form>
       <% else %>
-        <%= Groups.get_user_role(user, @cue) %>
+        {Groups.get_user_role(user, @cue)}
       <% end %>
     <% end %>
   </:col>
@@ -38,15 +42,22 @@
   </:action>
 </.table>
 
-<.modal :if={@live_action == :add} id="add-member-modal" show on_cancel={JS.patch(~p"/cues/#{@cue}/members")}>
+<.modal
+  :if={@live_action == :add}
+  id="add-member-modal"
+  show
+  on_cancel={JS.patch(~p"/cues/#{@cue}/members")}
+>
   <.header>
-    Add Member to <%= @cue.name %>
+    Add Member to {@cue.name}
   </.header>
 
   <form id="add-member-form" phx-submit="add_member">
     <div class="space-y-4">
       <div>
-        <label for="user_email" class="block text-sm font-semibold leading-6 text-zinc-800">User Email</label>
+        <label for="user_email" class="block text-sm font-semibold leading-6 text-zinc-800">
+          User Email
+        </label>
         <input
           type="text"
           name="user[email]"
@@ -57,7 +68,9 @@
       </div>
 
       <div>
-        <label for="user_role" class="block text-sm font-semibold leading-6 text-zinc-800">Role</label>
+        <label for="user_role" class="block text-sm font-semibold leading-6 text-zinc-800">
+          Role
+        </label>
         <select
           name="user[role]"
           id="user_role"
@@ -69,7 +82,10 @@
       </div>
 
       <div class="mt-6 flex justify-end">
-        <button type="submit" class="rounded-lg bg-zinc-900 px-3 py-2 text-sm font-semibold text-white hover:bg-zinc-700">
+        <button
+          type="submit"
+          class="rounded-lg bg-zinc-900 px-3 py-2 text-sm font-semibold text-white hover:bg-zinc-700"
+        >
           Add Member
         </button>
       </div>

@@ -8,8 +8,8 @@
 </.header>
 
 <.table id="cues" rows={@cues}>
-  <:col :let={cue} label="Name"><%= cue.name %></:col>
-  <:col :let={cue} label="Description"><%= cue.description %></:col>
+  <:col :let={cue} label="Name">{cue.name}</:col>
+  <:col :let={cue} label="Description">{cue.description}</:col>
   <:action :let={cue}>
     <.link navigate={~p"/cues/#{cue}"}>
       View
@@ -21,8 +21,7 @@
     </.link>
   </:action>
   <:action :let={cue}>
-    <.link phx-click={JS.push("delete", value: %{id: cue.id})}
-           data-confirm="Are you sure?">
+    <.link phx-click={JS.push("delete", value: %{id: cue.id})} data-confirm="Are you sure?">
       Delete
     </.link>
   </:action>

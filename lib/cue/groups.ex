@@ -199,9 +199,10 @@ defmodule Cue.Groups do
 
   """
   def is_member?(%User{} = user, %CueGroup{} = cue) do
-    query = from uc in UserCue,
-            where: uc.user_id == ^user.id and uc.cue_id == ^cue.id,
-            select: count(uc.id)
+    query =
+      from uc in UserCue,
+        where: uc.user_id == ^user.id and uc.cue_id == ^cue.id,
+        select: count(uc.id)
 
     Repo.one(query) > 0
   end
@@ -219,9 +220,10 @@ defmodule Cue.Groups do
 
   """
   def get_user_role(%User{} = user, %CueGroup{} = cue) do
-    query = from uc in UserCue,
-            where: uc.user_id == ^user.id and uc.cue_id == ^cue.id,
-            select: uc.role
+    query =
+      from uc in UserCue,
+        where: uc.user_id == ^user.id and uc.cue_id == ^cue.id,
+        select: uc.role
 
     Repo.one(query)
   end
@@ -242,7 +244,9 @@ defmodule Cue.Groups do
     from(uc in UserCue, where: uc.user_id == ^user.id and uc.cue_id == ^cue.id)
     |> Repo.one()
     |> case do
-      nil -> {:error, :not_found}
+      nil ->
+        {:error, :not_found}
+
       user_cue ->
         user_cue
         |> UserCue.changeset(%{role: role})

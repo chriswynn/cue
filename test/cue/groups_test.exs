@@ -131,14 +131,22 @@ defmodule Cue.GroupsTest do
       assert Enum.any?(cue_users, fn u -> u.id == user2.id end)
     end
 
-    test "is_member?/2 checks if a user is a member of a cue", %{user1: user1, user2: user2, cue: cue} do
+    test "is_member?/2 checks if a user is a member of a cue", %{
+      user1: user1,
+      user2: user2,
+      cue: cue
+    } do
       {:ok, _} = Groups.add_user_to_cue(user1, cue)
 
       assert Groups.is_member?(user1, cue) == true
       assert Groups.is_member?(user2, cue) == false
     end
 
-    test "get_user_role/2 returns the role of a user in a cue", %{user1: user1, user2: user2, cue: cue} do
+    test "get_user_role/2 returns the role of a user in a cue", %{
+      user1: user1,
+      user2: user2,
+      cue: cue
+    } do
       {:ok, _} = Groups.add_user_to_cue(user1, cue, %{role: "admin"})
 
       assert Groups.get_user_role(user1, cue) == "admin"

@@ -3,14 +3,14 @@ defmodule Cue.Groups.CueGroup do
   import Ecto.Changeset
   import Ecto.Query
 
-    schema "cues" do
+  schema "cues" do
     field :name, :string
     field :description, :string
     belongs_to :creator, Cue.Accounts.User
 
     many_to_many :users, Cue.Accounts.User,
-                 join_through: Cue.Groups.UserCue,
-                 join_keys: [cue_id: :id, user_id: :id]
+      join_through: Cue.Groups.UserCue,
+      join_keys: [cue_id: :id, user_id: :id]
 
     timestamps(type: :utc_datetime)
   end
