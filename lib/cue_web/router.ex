@@ -20,7 +20,7 @@ defmodule CueWeb.Router do
   scope "/", CueWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
+    get "/", HomeController, :index
   end
 
   # Other scopes may use custom stacks.
