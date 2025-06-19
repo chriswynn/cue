@@ -68,6 +68,14 @@ defmodule CueWeb.Router do
       on_mount: [{CueWeb.UserAuth, :ensure_authenticated}] do
       live "/users/settings", UserSettingsLive, :edit
       live "/users/settings/confirm_email/:token", UserSettingsLive, :confirm_email
+
+      # Cue routes
+      live "/cues", CueLive.Index, :index
+      live "/cues/new", CueLive.Index, :new
+      live "/cues/:id", CueLive.Show, :show
+      live "/cues/:id/edit", CueLive.Show, :edit
+      live "/cues/:id/members", CueLive.Members, :index
+      live "/cues/:id/members/add", CueLive.Members, :add
     end
   end
 

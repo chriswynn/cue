@@ -1,0 +1,41 @@
+<.header>
+  Listing Cues
+  <:actions>
+    <.link patch={~p"/cues/new"}>
+      <.button>New Cue</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="cues" rows={@cues}>
+  <:col :let={cue} label="Name"><%= cue.name %></:col>
+  <:col :let={cue} label="Description"><%= cue.description %></:col>
+  <:action :let={cue}>
+    <.link navigate={~p"/cues/#{cue}"}>
+      View
+    </.link>
+  </:action>
+  <:action :let={cue}>
+    <.link patch={~p"/cues/#{cue}/edit"}>
+      Edit
+    </.link>
+  </:action>
+  <:action :let={cue}>
+    <.link phx-click={JS.push("delete", value: %{id: cue.id})}
+           data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
+
+<.modal :if={@live_action == :new} id="cue-modal" show on_cancel={JS.patch(~p"/cues")}>
+  <.live_component
+    module={CueWeb.CueLive.FormComponent}
+    id={:new}
+    title="New Cue"
+    action={@live_action}
+    cue={@cue}
+    current_user={@current_user}
+    patch={~p"/cues"}
+  />
+</.modal>

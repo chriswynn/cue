@@ -9,6 +9,11 @@ defmodule Cue.Accounts.User do
     field :current_password, :string, virtual: true, redact: true
     field :confirmed_at, :utc_datetime
 
+    many_to_many :cues, Cue.Groups.CueGroup,
+                 join_through: Cue.Groups.UserCue,
+                 join_keys: [user_id: :id, cue_id: :id]
+    has_many :created_cues, Cue.Groups.CueGroup, foreign_key: :creator_id
+
     timestamps(type: :utc_datetime)
   end
 

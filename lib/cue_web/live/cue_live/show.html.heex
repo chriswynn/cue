@@ -1,0 +1,72 @@
+<.header>
+  Cue: <%= @cue.name %>
+  <:subtitle>
+    <div class="text-sm text-zinc-500">
+      <%= if @is_creator do %>
+        <span class="font-semibold">You created this cue</span>
+      <% else %>
+        <span>Created by <%= if @cue.creator_id, do: "User ##{@cue.creator_id}", else: "Unknown" %></span>
+      <% end %>
+    </div>
+  </:subtitle>
+  <:actions>
+    <%= if @is_creator || @user_role == "admin" do %>
+      <.link patch={~p"/cues/#{@cue}/edit"}>
+        <.button>Edit cue</.button>
+      </.link>
+      <.link navigate={~p"/cues/#{@cue}/members"}>
+        <.button>Manage members</.button>
+      </.link>
+    <% end %>
+
+    <%= if @is_member do %>
+      <.link phx-click="leave" data-confirm="Are you sure you want to leave this cue?">
+        <.button color="danger">Leave cue</.button>
+      </.link>
+    <% else %>
+      <.link phx-click="join">
+        <.button>Join cue</.button>
+      </.link>
+    <% end %>
+
+    <.link navigate={~p"/cues"}>
+      <.button color="secondary">Back to cues</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<div class="mt-8 space-y-8">
+  <div>
+    <h2 class="text-lg font-semibold">Description</h2>
+    <p class="mt-2 text-zinc-600"><%= @cue.description || "No description provided." %></p>
+  </div>
+
+  <div>
+    <h2 class="text-lg font-semibold">Your Status</h2>
+    <div class="mt-2">
+      <%= if @is_member do %>
+        <div class="flex items-center">
+          <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+          <span>You are a <span class="font-semibold"><%= @user_role %></span> of this cue</span>
+        </div>
+      <% else %>
+        <div class="flex items-center">
+          <div class="w-3 h-3 bg-zinc-300 rounded-full mr-2"></div>
+          <span>You are not a member of this cue</span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<.modal :if={@live_action == :edit} id="cue-modal" show on_cancel={JS.patch(~p"/cues/#{@cue}")}>
+  <.live_component
+    module={CueWeb.CueLive.FormComponent}
+    id={@cue.id}
+    title="Edit Cue"
+    action={@live_action}
+    cue={@cue}
+    current_user={@current_user}
+    patch={~p"/cues/#{@cue}"}
+  />
+</.modal>
